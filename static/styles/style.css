@@ -1,0 +1,276 @@
+/* Estilos generales para el body y contenedores */
+body {
+    font-family: 'Inter', sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: #f9f9f9;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+}
+
+.login-container, .register-container {
+    background-color: #ffffff;
+    padding: 40px;
+    border-radius: 12px;
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+    width: 350px;
+    text-align: center;
+}
+
+/* Estilos para títulos y subtítulos */
+.login-title, .register-title {
+    font-size: 28px;
+    font-weight: 600;
+    margin-bottom: 10px;
+    color: #222;
+}
+
+.login-subtitle, .register-subtitle {
+    font-size: 16px;
+    color: #666;
+    margin-bottom: 30px;
+}
+
+/* Estilos para los contenedores de inputs */
+.input-container {
+    width: 100%;
+    margin-top: 20px;
+    position: relative;
+}
+
+/* Estilos para los inputs de texto, password y email */
+input[type="text"],
+input[type="password"],
+input[type="email"] {
+    width: calc(100% - 40px);
+    padding: 12px 20px;
+    padding-left: 15px;
+    margin: 0;
+    border: 1px solid #ddd;
+    border-radius: 6px;
+    box-sizing: border-box;
+    font-size: 16px;
+    transition: border-color 0.3s ease;
+    outline: none;
+    background-color: #fff;
+}
+
+input[type="text"]:focus,
+input[type="password"]:focus,
+input[type="email"]:focus {
+    border-color: #4CAF50;
+    box-shadow: 0 0 5px rgba(76, 175, 80, 0.3);
+}
+
+/* Estilos para los botones de login y registro */
+.login-button, .register-button {
+    background-color: #4CAF50;
+    color: white;
+    padding: 12px 20px;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    width: 100%;
+    font-size: 18px;
+    transition: background-color 0.3s ease;
+    margin-top: 10px;
+}
+
+.login-button:hover, .register-button:hover {
+    background-color: #45a049;
+}
+
+/* Estilos para el enlace de registro/login */
+.register-link, .login-link {
+    font-size: 14px;
+    color: #666;
+    margin-top: 20px;
+    display: block;
+    text-align: center;
+}
+
+.register-link input[type="button"], .login-link input[type="submit"]{
+    background-color: transparent;
+    border: none;
+    color: #4CAF50;
+    text-decoration: underline;
+    cursor: pointer;
+    font-size: 14px;
+    padding: 0;
+    margin: 0;
+}
+
+/* Estilos para los mensajes de error */
+.error-message {
+    color: red;
+    font-size: 14px;
+    margin-top: 10px;
+    text-align: center;
+}
+
+/* Estilos adicionales para el dashboard */
+.dashboard-container {
+    background-color: #ffffff;
+    padding: 40px;
+    border-radius: 12px;
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+    width: 80%;
+    max-width: 1200px;
+    text-align: center;
+    margin-top: 20px;
+}
+
+.dashboard-title {
+    font-size: 28px;
+    font-weight: 600;
+    margin: 20px 0;
+    color: #222;
+}
+
+.dashboard-subtitle {
+    font-size: 16px;
+    color: #666;
+    margin-bottom: 30px;
+}
+.input-container {
+    width: 100%;
+    margin-bottom: 20px;
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+input[type="text"],
+input[type="email"],
+input[type="number"] {
+    width: calc(100% - 40px);
+    max-width: 400px;
+    padding: 12px 20px;
+    padding-left: 15px;
+    margin: 0;
+    border: 1px solid #ddd;
+    border-radius: 6px;
+    box-sizing: border-box;
+    font-size: 16px;
+    transition: border-color 0.3s ease;
+    outline: none;
+    background-color: #fff;
+}
+
+input[type="text"]:focus,
+input[type="email"]:focus,
+input[type="number"]:focus {
+    border-color: #4CAF50;
+    box-shadow: 0 0 5px rgba(76, 175, 80, 0.3);
+}
+
+.button-container {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 20px;
+    margin-top: 20px;
+}
+
+
+.dashboard-button {
+    background-color: #4CAF50;
+    color: white;
+    padding: 12px 20px;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    font-size: 18px;
+    transition: background-color 0.3s ease;
+}
+
+.dashboard-button:hover {
+    background-color: #45a049;
+}
+
+#user-list-container {
+    margin-top: 30px;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    padding: 20px;
+    display: none;
+    background-color: #f5f5f5;
+    max-height: 300px; /* Establece una altura máxima para el contenedor */
+    overflow-y: auto; /* Agrega una barra de desplazamiento vertical cuando sea necesario */
+}
+
+#user-list-container h3 {
+    font-size: 20px;
+    margin-bottom: 20px;
+    color: #222;
+}
+
+#user-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+#user-list li {
+    background-color: #fff;
+    margin-bottom: 10px;
+    padding: 15px;
+    border-radius: 6px;
+    border: 1px solid #ddd;
+    font-size: 16px;
+    color: #333;
+    white-space: nowrap; /* Evita que el texto se envuelva */
+    overflow: hidden;         /* Oculta el texto que se desborda */
+    text-overflow: ellipsis;   /* Agrega puntos suspensivos (...) al final del texto recortado */
+}
+
+#user-list li:nth-child(odd) {
+    background-color: #f9f9f9;
+}
+
+#update-user-form, #delete-user-form {
+    margin-top: 30px;
+    padding: 20px;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    background-color: #fff;
+    display: none;
+    flex-direction: column;
+    align-items: center;
+}
+
+#update-user-form h3, #delete-user-form h3 {
+    font-size: 20px;
+    margin-bottom: 20px;
+    color: #222;
+}
+
+.form-group {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    margin-bottom: 20px;
+}
+
+.form-group label {
+    font-size: 16px;
+    color: #444;
+    margin-bottom: 8px;
+    width: 100%;
+    text-align: left;
+}
+
+.message-container {
+    margin-top: 20px;
+    text-align: center;
+    font-size: 16px;
+    font-weight: bold;
+}
+
+.success-message {
+    color: green;
+}

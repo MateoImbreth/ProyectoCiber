@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Register</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&family=Open+Sans:ital,wght@0,300..800;1,300..800&family=PT+Sans:ital,wght@0,400;0,700;1,400;1,700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="/static/styles/style.css">
+</head>
+<body>
+    <div class="register-container">
+        <h2 class="register-title">Create new Account</h2>
+        <p class="register-subtitle">Already Registered? <a href="/" class="login-link">Login</a></p>
+        <form id="registerForm" action="/detalles_usuario/" method="post">
+            <div class="input-container">
+                <input type="text" id="nombre" name="nick_name" placeholder="Name" required>
+            </div>
+            <div class="input-container">
+                <input type="email" id="email" name="email" placeholder="Email" required>
+            </div>
+            <div class="input-container">
+                <input type="password" id="password" name="contrasena" placeholder="Password" required>
+            </div>
+            <div class="input-container">
+                <input type="password" id="confirm-password" name="confirmar_contrasena" placeholder="Confirm Password" required>
+            </div>
+            <div class="input-container">
+                <input type="text" id="grupo" name="grupo" placeholder="Group" required>
+            </div>
+            <button type="submit" class="register-button">Registrar</button>
+        </form>
+        <div id="error-message" class="error-message" style="display:none;"></div>
+    </div>
+    <script>
+        document.getElementById('registerForm').addEventListener('submit', function(event) {
+            const password = document.getElementById('password').value.trim();
+            const confirmar_contrasena = document.getElementById('confirm-password').value.trim();
+            const email = document.getElementById('email').value.trim();
+            const errorMessage = document.getElementById('error-message');
+
+            if (password !== confirmar_contrasena) {
+                errorMessage.textContent = 'Las contraseñas no coinciden.';
+                errorMessage.style.display = 'block';
+                event.preventDefault();
+            } else if (!isValidGmail(email)) {
+                errorMessage.textContent = 'Por favor, ingrese un correo electrónico de Gmail válido.';
+                errorMessage.style.display = 'block';
+                event.preventDefault();
+            } else {
+                errorMessage.style.display = 'none';
+            }
+        });
+
+        function isValidGmail(email) {
+            const gmailRegex = /^[\w-\.]+@gmail\.com$/;
+            return gmailRegex.test(email);
+        }
+    </script>
+</html>
