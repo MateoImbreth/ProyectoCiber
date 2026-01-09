@@ -1,0 +1,8 @@
+fastapi
+uvicorn[standard]  # Servidor ASGI para FastAPI
+sqlalchemy         # Para interactuar con la base de datos (ORM)
+python-jose[cryptography] # Para JSON Web Tokens (JWT)
+passlib[bcrypt]    # Para hashing seguro de contraseñas
+pyotp              # Para la generación y verificación de TOTP (Time-based One Time Password)
+pydantic           # Para la validación de esquemas (ya viene con FastAPI, pero se recomienda listar)
+python-multipart   # Si vas a manejar formularios o archivos
