@@ -1,4 +1,5 @@
-from sqlalchemy.ext.declarative import declarative_base
+from sqlmodel import SQLModel
 
 # Clase base que será heredada por todos los modelos
-Base = declarative_base()
+class Base(SQLModel):
+    pass
