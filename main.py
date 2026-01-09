@@ -33,8 +33,8 @@ def get_db():
 # Función para hashear la contraseña
 def hash_password(password: str) -> str:
     salt = bcrypt.gensalt()  # Genera un salt aleatorio
-    hashed_password = bcrypt.hashpw(password.encode('utf-8'), salt)
-    return hashed_password.decode('utf-8')
+    hashed_password = bcrypt.hashpw(password.encode('utf-8'), salt) #Con encode se convierte el string de la contraseña en bytees
+    return hashed_password.decode('utf-8') #Convierte la contraseña que fue converitda en bytes a String nuevamente
 
 
 # Función para verificar la contraseña
