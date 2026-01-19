@@ -5,7 +5,6 @@ from app.Core.config import settings # Importamos la configuración centralizada
 engine = create_engine(settings.DATABASE_URL)
 
 
-# 🚨 FUNCIÓN DE DEPENDENCIA DE LA DB 🚨
 def get_db() -> Generator:
     """
     Proporciona una sesión de DB para las rutas. 

@@ -5,8 +5,8 @@ from sqlalchemy.orm import Session # Necesario para la inyección de dependencia
 
 # Importaciones de la aplicación (Asegúrate de que las rutas sean correctas: ..Core y ..db)
 
-from ..db.db import get_db #  Importación de la dependencia de la DB
-from ..Crud import users as crud_users # Importación del CRUD real
+from app.db.db import get_db #  Importación de la dependencia de la DB
+#from app.Crud import users as crud_users # Importación del CRUD real
 
 from datetime import timedelta
 

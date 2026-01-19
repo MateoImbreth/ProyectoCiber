@@ -1,19 +1,34 @@
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
-from .api import endpoints_auth # Importa las rutas de autenticación
+from fastapi.staticfiles import StaticFiles
+from sqlmodel import SQLModel
+
+#Importaciones internas
+from app.api import endpoints_auth # Importa las rutas de autenticación
+from app.db.db import engine # Importa el motor de la base de datos
 
 # ----------------------------------------------------
 # 1. Instancia de la Aplicación FastAPI
 # ----------------------------------------------------
 
 app = FastAPI(
-    title="Plantilla",
-    description="API para la autenticación multifactor (FastAPI + TOTP)",
+    title="Sistema de Autenticación",
+    description="Backedn para un sistema de autenticación con MFA utilizando FastAPI y SQLModel.",
     version="1.0.0",
 )
 
 # ----------------------------------------------------
-# 2. Configuración CORS (Cross-Origin Resource Sharing)
+# 2. Configuración de BASE DE DATOS y MODELOS
+# ----------------------------------------------------
+
+@app.on_event("startup")
+def on_startup():
+    """Evento que se ejecuta al iniciar la aplicación.
+    Crea las tablas de la base de datos si no existen.
+    """
+    SQLModel.metadata.create_all(engine)
+# ----------------------------------------------------
+# 3. Configuración CORS (Cross-Origin Resource Sharing)
 # ----------------------------------------------------
 origins = [
     "http://localhost:3000",  # Dirección típica de React Dev Server
@@ -29,17 +44,18 @@ app.add_middleware(
 )
 
 # ----------------------------------------------------
-# 3. Inclusión de Rutas
+# 4. Archivos estáticos [CSS, JS, Imágenes]
+# ----------------------------------------------------
+app.mount("/static", StaticFiles(directory="static"), name="static") # Monta el directorio 'static' para servir archivos estáticos
+
+# ----------------------------------------------------
+# 5. Inclusión de Rutas
 # ----------------------------------------------------
 app.include_router(endpoints_auth.router, tags=["Authentication"])
 
 # ----------------------------------------------------
-# 4. Rutas de prueba 
+# 6. Rutas de prueba 
 # ----------------------------------------------------
-
-@app.get("/")
-def read_root():
-    return {"message": "MFA Backend is running successfully!"}
 
 @app.get("/status")
 def get_status():
