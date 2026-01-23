@@ -1,7 +1,7 @@
 from sqlmodel import Field, Relationship
 from typing import Optional, List
 from datetime import date
-from app.db.base_class import Base
+from Backend.app.db.base_class import Base
 
 class Usuarios(Base, table=True):
     id_usuario: Optional[int] = Field(default=None,primary_key=True)

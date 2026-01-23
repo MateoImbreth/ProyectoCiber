@@ -6,11 +6,11 @@ from typing import Annotated
 from jose import JWTError, jwt
 
 #Importaciones internas de nuestra estructura
-from app.db.db import get_db
-from app.Core.config import settings
-from app.Core.security import create_token 
-from app.services import auth_services
-from app.Crud import users as crud_users
+from Backend.app.db.db import get_db
+from Backend.app.Core.config import settings
+from Backend.app.Core.security import create_token 
+from Backend.app.services import auth_services
+from Backend.app.Crud import users as crud_users
 
 # Inicializar el Router
 router = APIRouter()

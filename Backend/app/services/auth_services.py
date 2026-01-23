@@ -1,8 +1,8 @@
 from sqlmodel import Session
 from fastapi import HTTPException
 from datetime import date
-from app.Crud import users as crud_users
-from app.Core.security import hash_password, verify_password
+from Backend.app.Crud import users as crud_users
+from Backend.app.Core.security import hash_password, verify_password
 
 #----------------------------------------------------
 # Servicio para registrar un nuevo usuario  

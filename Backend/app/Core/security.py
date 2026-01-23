@@ -1,7 +1,7 @@
 import bcrypt
 from datetime import datetime, timedelta
 from jose import JWTError, jwt
-from app.Core.config import settings
+from Backend.app.Core.config import settings
 
 # ----------------------------------------------------
 # 1. Hashear contraseña (de texto plano a hash) 

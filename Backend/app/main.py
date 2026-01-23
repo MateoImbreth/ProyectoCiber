@@ -4,8 +4,8 @@ from fastapi.staticfiles import StaticFiles
 from sqlmodel import SQLModel
 
 #Importaciones internas
-from app.api import endpoints_auth # Importa las rutas de autenticación
-from app.db.db import engine # Importa el motor de la base de datos
+from Backend.app.api import endpoints_auth # Importa las rutas de autenticación
+from Backend.app.db.db import engine # Importa el motor de la base de datos
 
 # ----------------------------------------------------
 # 1. Instancia de la Aplicación FastAPI

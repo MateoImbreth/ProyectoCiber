@@ -1,6 +1,6 @@
 from sqlmodel import create_engine, Session, SQLModel
 from typing import Generator
-from app.Core.config import settings # Importamos la configuración centralizada de settings
+from Backend.app.Core.config import settings # Importamos la configuración centralizada de settings
 
 engine = create_engine(settings.DATABASE_URL)
 
@@ -20,7 +20,7 @@ def create_db_tables():
     # IMPORTANTE: Debemos importar los modelos aquí antes de llamar a create_all
     # para que SQLModel "sepa" que esas tablas existen.
 
-    from app.models import user_model 
+    from Backend.app.models import user_model 
     SQLModel.metadata.create_all(bind=engine)
     print("¡ÉXITO! Tablas creadas.")
 

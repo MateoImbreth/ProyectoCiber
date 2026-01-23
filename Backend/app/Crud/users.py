@@ -1,7 +1,7 @@
 from sqlmodel import Session, select
-from app.models.user_model import Usuarios, Detalle_Usuarios
-from app.schemas.user_schema import UserRead, UserUpdate
-from app.Core.security import hash_password
+from Backend.app.models.user_model import Usuarios, Detalle_Usuarios
+from Backend.app.schemas.user_schema import UserRead, UserUpdate
+from Backend.app.Core.security import hash_password
 
 # ----------------------------------------------------
 # 1. Obtener usuario por ID
