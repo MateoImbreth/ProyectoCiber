@@ -43,7 +43,8 @@ def registrar_nuevo_usuario(db: Session, nick_name: str, contrasena: str, grupo:
 #----------------------------------------------------
 # Servicio para autenticar usuario (login)
 
-def verificar_credenciales(password_plana: str, usuario_db: Session):
-    if not usuario_db or not usuario_db.detalle:
+def verificar_credenciales(nick_name: str, password_plana: str, db: Session):
+    usuario_db = crud_users.obtener_usuario_por_nickname(db, nick_name)
+    if not usuario_db or not usuario_db.detalles:
         return False
-    return verify_password(password_plana, usuario_db.detalle[0].contrasena)
+    return verify_password(password_plana, usuario_db.detalles[0].contrasena)

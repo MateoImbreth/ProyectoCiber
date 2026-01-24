@@ -13,15 +13,15 @@
     <div class="login-container">
         <h2 class="login-title">Login</h2>
         <p class="login-subtitle">Sign in to continue</p>
-        <form id="loginForm" action="/users/login" method="post">
+        <form id="loginForm" action="/login" method="post">
             <div class="input-container">
-                <input type="text" name="username" placeholder="Username" required>
+                <input type="text" name="nick_name" placeholder="Username" required>
             </div>
             <div class="input-container">
-                <input type="password" id="password" name="password" placeholder="Password" required>
+                <input type="password" id="password" name="contrasena" placeholder="Password" required>
             </div>
             <div class="input-container">
-                 <input type="password" id="confirm-password" name="confirmar_password" placeholder="Confirm Password" required>
+                 <input type="password" id="confirm-password" name="confirmar_contrasena" placeholder="Confirm Password" required>
             </div>
             <button type="submit" class="login-button">Login</button>
              <a href="/register" class="register-link">

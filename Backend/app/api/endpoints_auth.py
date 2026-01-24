@@ -4,6 +4,7 @@ from fastapi.templating import Jinja2Templates
 from sqlmodel import Session
 from typing import Annotated
 from jose import JWTError, jwt
+from pathlib import Path
 
 #Importaciones internas de nuestra estructura
 from Backend.app.db.db import get_db
@@ -14,7 +15,8 @@ from Backend.app.Crud import users as crud_users
 
 # Inicializar el Router
 router = APIRouter()
-templates = Jinja2Templates(directory="Backend/templates")
+templates_dir = Path(__file__).parent.parent.parent.parent / "templates"
+templates = Jinja2Templates(directory=str(templates_dir))
 
 #----------------------------------------------------
 # 1. Ruta: Página de inicio de sesión (login)
@@ -26,7 +28,7 @@ def root(request: Request):
 #----------------------------------------------------
 # 2. Ruta: Manejar el inicio de sesión (login)
 # ----------------------------------------------------
-@router.post("/users/login", response_class=HTMLResponse)
+@router.post("/login", response_class=HTMLResponse)
 def login(
     nick_name: Annotated[str, Form(...)],
     contrasena: Annotated[str, Form(...)],
@@ -38,12 +40,13 @@ def login(
         raise HTTPException(status_code=400, detail="Las contraseñas no coinciden.")
     
     # Verificar credenciales del usuario
-    user = auth_services.verificar_credenciales(db, nick_name, contrasena)
+    user = auth_services.verificar_credenciales(nick_name, contrasena, db)
     if not user:
         raise HTTPException(status_code=401, detail="Credenciales inválidas")
 
+    usuario_db = crud_users.obtener_usuario_por_nickname(db, nick_name)
     # Crear el token JWT y establecerlo en una cookie segura
-    token = create_token({"nick_name": user.nick_name})
+    token = create_token({"nick_name": usuario_db.nick_name})
 
     #Redirigir al usuario a la página del dashboard después del login enviando la cookie
     response = RedirectResponse(url="/dashboard", status_code=303)
@@ -54,7 +57,7 @@ def login(
 #----------------------------------------------------
 # 3. Ruta: Dashboard protegido (requiere autenticación)
 # ----------------------------------------------------
-@router.get("/users/dashboard", response_class=HTMLResponse)
+@router.get("/dashboard", response_class=HTMLResponse)
 def dashboard(
     request: Request,
     access_token: Annotated[str | None, Cookie()] = None,

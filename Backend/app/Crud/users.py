@@ -23,12 +23,12 @@ def obtener_usuario_por_nickname(db: Session, nick_name: str):
 # 3. Crear nuevo usuario y sus detalles
 # ----------------------------------------------------
 
-def crear_useario_compleot(db: Session, user_data: dict, detail_data: dict):
+def crear_usuario_completo(db: Session, user_data: dict, detail_data: dict):
     """
     1. Crea el registro del usuario en la tabla Usuarios.
     2. Usa el ID generado para crear el registro en Detalle_Usuarios.
     """
-    # Crear eñ objeto del Modelo Usuarios
+    # Crear el objeto del Modelo Usuarios
     nuevo_usuario = Usuarios(
         nick_name=user_data['nick_name'],
         nombre=user_data.get('nombre'),
