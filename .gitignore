@@ -1,4 +1,6 @@
 .env
 venv/
-
+node_modules
+.vscode/
+__pycache__/
 arquitectura_backend_fastAPI.txt
