@@ -1,5 +1,6 @@
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
+from fastapi.middleware.gzip import GZipMiddleware
 from fastapi.staticfiles import StaticFiles
 from sqlmodel import SQLModel
 
@@ -46,8 +47,9 @@ app.add_middleware(
 # ----------------------------------------------------
 # 4. Archivos estáticos [CSS, JS, Imágenes]
 # ----------------------------------------------------
+#app.mount("/tailwindcss", StaticFiles(directory="tailwindcss"), name="tailwindcss") # Monta el directorio 'static' para servir archivos estáticos
 app.mount("/static", StaticFiles(directory="static"), name="static") # Monta el directorio 'static' para servir archivos estáticos
-
+app.add_middleware(GZipMiddleware) # Habilita la compresión GZip para respuestas
 # ----------------------------------------------------
 # 5. Inclusión de Rutas
 # ----------------------------------------------------
