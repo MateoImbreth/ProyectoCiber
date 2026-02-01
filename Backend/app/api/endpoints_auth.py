@@ -12,20 +12,21 @@ from Backend.app.Core.config import settings
 from Backend.app.Core.security import create_token 
 from Backend.app.services import auth_services
 from Backend.app.Crud import users as crud_users
+from Backend.app.schemas.user_schema import UserLogin, UserRead, UserUpdate
 
 # Inicializar el Router
 router = APIRouter()
 templates_dir = Path(__file__).parent.parent.parent.parent / "templates"
 templates = Jinja2Templates(directory=str(templates_dir))
 
-#----------------------------------------------------
+# ----------------------------------------------------
 # 1. Ruta: Página de inicio de sesión (login)
 # ----------------------------------------------------
 @router.get("/", response_class=HTMLResponse)
 def root(request: Request):
     return templates.TemplateResponse("index.html", {"request": request})
 
-#----------------------------------------------------
+# ----------------------------------------------------
 # 2. Ruta: Manejar el inicio de sesión (login)
 # ----------------------------------------------------
 @router.post("/login", response_class=HTMLResponse)
@@ -54,7 +55,7 @@ def login(
     return response
 
 
-#----------------------------------------------------
+# ----------------------------------------------------
 # 3. Ruta: Dashboard protegido (requiere autenticación)
 # ----------------------------------------------------
 @router.get("/dashboard", response_class=HTMLResponse)
@@ -83,7 +84,7 @@ def dashboard(
         return RedirectResponse(url="/", status_code=303)
     
 
-#----------------------------------------------------
+# ----------------------------------------------------
 # 4. Ruta: Logout (cerrar sesión)
 # ----------------------------------------------------
 @router.get("/users/logout")
@@ -93,7 +94,7 @@ def logout():
     response.delete_cookie(key="access_token", path="/")
     return response
 
-#----------------------------------------------------
+# ----------------------------------------------------
 # 5. Ruta: Mostrar formulario de registro de usuario
 # ----------------------------------------------------  
 @router.get("/register", response_class=HTMLResponse)
@@ -121,4 +122,47 @@ def crear_usuario_endpoint(
     )
 
     # Redirigir al usuario al login después del registro
-    return RedirectResponse(url="/login", status_code=303)
+    return RedirectResponse(url="/", status_code=303)
+
+
+# ----------------------------------------------------
+# 6. Ruta: Listar todos los usuarios
+# ----------------------------------------------------
+@router.get("/usuarios/", response_model=list[UserRead])
+def listar_usuarios(db: Session = Depends(get_db)):
+    usuarios = crud_users.obtener_usuarios(db)
+    return usuarios
+
+# ----------------------------------------------------
+# 7. Ruta: Listar usuario por id
+# ----------------------------------------------------
+@router.get("/usuarios/{id_usuario}", response_model=UserRead)
+def obtener_usuario(id_usuario: int, db: Session = Depends(get_db)):
+    usuario = crud_users.obtener_usuario_por_id(db, id_usuario)
+    if not usuario:
+        raise HTTPException(status_code=404, detail="Usuario no encontrado")
+    return usuario
+
+# ----------------------------------------------------
+# 8. Ruta: Actualizar usuario   
+# ----------------------------------------------------
+@router.put("/usuarios/{id_usuario}", response_model=UserRead)
+def actualizar_usuario_endpoint(
+    id_usuario: int,
+    user_update: UserUpdate,
+    db: Session = Depends(get_db)
+):
+    usuario_actualizado = crud_users.actualizar_usuario(db, id_usuario, user_update)
+    if not usuario_actualizado:
+        raise HTTPException(status_code=404, detail="Usuario no encontrado")
+    return usuario_actualizado
+
+# ----------------------------------------------------
+# 9. Ruta: Eliminar usuario
+# ----------------------------------------------------
+@router.delete("/usuarios/{id_usuario}")
+def eliminar_usuario_endpoint(id_usuario: int, db: Session = Depends(get_db)):
+    exito = crud_users.borrar_usuario(db, id_usuario)
+    if not exito:
+        raise HTTPException(status_code=404, detail="Usuario no encontrado")
+    return {"detail": "Usuario eliminado exitosamente"}

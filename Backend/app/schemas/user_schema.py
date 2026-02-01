@@ -1,5 +1,5 @@
 from sqlmodel import SQLModel
-from typing import Optional
+from typing import Optional, List
 from datetime import date
 
 #----------------------------------------------------
@@ -25,11 +25,14 @@ class UserUpdate(SQLModel):
 # 3. Para mostrar la información del usuario (sin contraseña)
 #----------------------------------------------------
 
+class DetalleRead(SQLModel):
+    email: str
+    grupo: int
+    estado_cuenta: bool
+
 class UserRead(SQLModel):
     id_usuario: int
     nick_name: str
     fecha: date
     nombre: Optional[str] = None
-    email: str
-    grupo: int
-    estado_cuenta: bool
+    detalles: List[DetalleRead] = []

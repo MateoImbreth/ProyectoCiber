@@ -18,6 +18,13 @@ def obtener_usuario_por_nickname(db: Session, nick_name: str):
     statement = select(Usuarios).where(Usuarios.nick_name == nick_name)
     return db.exec(statement).first()
 
+# ----------------------------------------------------
+# 2.1 Obtener todos los usuarios
+# ----------------------------------------------------
+
+def obtener_usuarios(db: Session, offset: int = 0, limit: int = 100):
+    statement = select(Usuarios).offset(offset).limit(limit)
+    return db.exec(statement).all()
 
 # ----------------------------------------------------
 # 3. Crear nuevo usuario y sus detalles
@@ -54,11 +61,45 @@ def crear_usuario_completo(db: Session, user_data: dict, detail_data: dict):
     return nuevo_usuario
 
 # ----------------------------------------------------
+# 3.1 Actualizar usuario
+# ----------------------------------------------------
+def actualizar_usuario(db: Session, id_usuario: int, user_update: UserUpdate):
+    usuario = db.get(Usuarios, id_usuario)
+    if not usuario:
+        return None
+
+    data = user_update.model_dump(exclude_unset=True)
+    for key in ["nick_name", "nombre", "fecha"]:
+        if key in data:
+            setattr(usuario, key, data[key])
+
+    if usuario.detalles:
+        detalle = usuario.detalles[0]  # Acceder al primer detalle
+        for key in ["contrasena", "grupo", "email"]:
+            if key in data:
+                val = data[key]
+                if key == "contrasena":
+                    val = hash_password(val)
+                    setattr(detalle, key, val)
+                else:
+                    setattr(detalle, key, val)
+    db.add(usuario)
+    db.commit()
+    db.refresh(usuario)
+    return usuario
+
+# ----------------------------------------------------
 # 4. Borrar usuario
 # ----------------------------------------------------
 def borrar_usuario(db: Session, id_usuario: int):
     usuario = db.get(Usuarios, id_usuario)
     if usuario:
+        detalle_usuario = db.exec(
+            select(Detalle_Usuarios).where(Detalle_Usuarios.id_usuario == id_usuario)
+        ).first()
+
+        db.delete(detalle_usuario)
+        db.commit()
         db.delete(usuario)
         db.commit()
         return True
