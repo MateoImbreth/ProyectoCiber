@@ -10,23 +10,34 @@
     <!-- <link rel="stylesheet" href="/tailwindcss/style.css"> -->
     <link rel="stylesheet" href="/static/css/output.css">
 </head> 
-<body class="text-center">
-    <div class="login-container">
-        <h2 class="login-title">Login</h2>
-        <p class="login-subtitle">Sign in to continue</p>
-        <form id="loginForm" action="/login" method="post">
-            <div class="input-container">
-                <input type="text" name="nick_name" placeholder="Username" required>
+<body class="bg-gray-50 flex flex-col items-center justify-center h-screen mx-auto max-w-xl text-center">
+    <div class="bg-white w-md h-auto py-9 rounded-xl shadow-[0_8px_20px_rgba(0,0,0,0.1)]">
+        <div class="pt-7 pb-3">
+            <h2 class="text-3xl font-medium py-2">Login</h2>
+            <p class="text-lg opacity-70 font-light pb-4">Inicia sesión para continuar</p>
+        </div>
+            <form class="flex flex-col items-center space-y-5"
+            id="loginForm" action="/login" method="post">
+            <div class="">
+                <input class="border border-gray-300 rounded-xl p-2 w-xs
+                focus:outline-none focus:ring-2 focus:ring-green-500" 
+                type="text" name="nick_name" placeholder="Username" required>
             </div>
-            <div class="input-container">
-                <input type="password" id="password" name="contrasena" placeholder="Password" required>
+            <div class="">
+                <input class="border border-gray-300 rounded-xl p-2 w-xs
+                focus:outline-none focus:ring-2 focus:ring-green-500" 
+                type="password" id="password" name="contrasena" placeholder="Password" required>
             </div>
-            <div class="input-container">
-                 <input type="password" id="confirm-password" name="confirmar_contrasena" placeholder="Confirm Password" required>
+            <div class="">
+                 <input class="border border-gray-300 rounded-xl p-2 w-xs
+                 focus:outline-none focus:ring-2 focus:ring-green-500" 
+                 type="password" id="confirm-password" name="confirmar_contrasena" placeholder="Confirm Password" required>
             </div>
-            <button type="submit" class="login-button">Login</button>
-             <a href="/register" class="register-link">
-                <input type="button" value="Registrate">
+            <button type="submit" 
+            class="bg-green-600 text-white py-2.5 mt-2 rounded-xl
+             hover:bg-green-700 cursor-pointer w-sm text-xl">Login</button>
+             <a href="/register" >
+                <input type="button" value="Registrate" class="underline cursor-pointer mb-2 text-green-600">
             </a>
         </form>
         <div id="error-message" class="error-message" style="display:none;"></div>

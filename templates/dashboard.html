@@ -4,260 +4,297 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Dashboard</title>
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&family=Open+Sans:ital,wght@0,300..800;1,300..800&family=PT+Sans:ital,wght@0,400;0,700;1,400;1,700&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="/tailwindcss/style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <link rel="stylesheet" href="/static/css/output.css">
+    <style>
+        body { font-family: 'Inter', sans-serif; }
+    </style>
 </head>
-<body>
-    <div class="dashboard-container">
-        <h2 class="dashboard-title">User Dashboard</h2>
-        <p class="dashboard-subtitle">Manage Users</p>
-
-        <div class="button-container">
-            <button id="get-all-users" class="dashboard-button">Get All Users</button>
-            <button id="get-user-by-id" class="dashboard-button">Get User by ID</button>
-            <button id="update-user" class="dashboard-button">Update User</button>
-            <button id="delete-user" class="dashboard-button">Delete User</button>
-        </div>
-
-        <div id="user-list-container">
-            <h3>User List</h3>
-            <ul id="user-list"></ul>
-        </div>
-
-        <div id="get-user-by-id-form" style="display: none;">
-            <h3>Get User by ID</h3>
-            <div class="input-container">
-                <input type="number" id="user-id-input" placeholder="Enter User ID">
+<body class="bg-gray-50 text-gray-900">
+    <div class="flex p-6 min-h-screen gap-8 max-w-400 mx-auto">
+        <aside class="w-72 shrink-0 border border-gray-200 bg-white rounded-2xl shadow-sm h-fit sticky top-6 p-2">
+            <div class="px-6 py-8">
+                <h2 class="text-xl font-bold tracking-tight text-gray-800">Dashboard de Usuarios</h2>
+                <p class="text-xs text-gray-400 mt-1 uppercase font-bold tracking-widest">Gestión</p>
             </div>
-            <button id="get-user-by-id-button" class="dashboard-button">Get User</button>
-            <div id="message-get-user" class="message-container"></div>
-        </div>
+            <nav class="flex flex-col space-y-1 pb-6 px-3">
+                <button id="get-all-users" class="flex items-center gap-3 text-gray-600 hover:bg-green-600 hover:text-white py-3 hover:transition-all px-4 rounded-xl text-sm font-semibold transition-all hover:shadow-lg hover:shadow-green-100">
+                    <i data-lucide="users" class="w-4 h-4"></i> Listar Usuarios
+                </button>
+                <button id="get-user-by-id" class="flex items-center gap-3 text-gray-600 hover:bg-green-600 hover:text-white py-3 hover:transition-all px-4 rounded-xl text-sm font-semibold transition-all hover:shadow-lg hover:shadow-green-100">
+                    <i data-lucide="search" class="w-4 h-4"></i> Buscar por ID
+                </button>
+                <button id="update-user" class="flex items-center gap-3 text-gray-600 hover:bg-green-600 hover:text-white py-3 hover:transition-all px-4 rounded-xl text-sm font-semibold transition-all hover:shadow-lg hover:shadow-green-100">
+                    <i data-lucide="refresh-cw" class="w-4 h-4"></i> Actualizar Usuario
+                </button>
+                <button id="delete-user" class="flex items-center gap-3 text-gray-600 hover:bg-red-600 hover:text-white py-3 hover:transition-all px-4 rounded-xl text-sm font-semibold transition-all hover:shadow-lg hover:shadow-red-100">
+                    <i data-lucide="user-x" class="w-4 h-4"></i> Eliminar Usuario
+                </button>
+                <hr class="my-4 border-gray-100">
+                <a href="/" class="flex items-center gap-3 text-red-500 hover:bg-red-50 py-3 px-4 rounded-xl text-sm font-medium transition-all">
+                    <i data-lucide="log-out" class="w-4 h-4"></i> Salir
+                </a>
+            </nav>
+        </aside>
 
-        <div id="update-user-form">
-            <h3>Update User</h3>
-            <div class="input-container">
-                <input type="number" id="update-user-id" placeholder="User ID" required>
+        <main class="flex-1">
+            <div id="user-list-container" class="bg-white rounded-2xl border border-gray-200 shadow-sm overflow-hidden hidden">
+                <div class="px-8 py-6 border-b border-gray-100 flex justify-between items-center">
+                    <h3 class="text-lg font-bold">Miembros <span id="user-count" class="ml-2 text-sm font-medium text-green-600 bg-green-50 px-2.5 py-0.5 rounded-full">0</span></h3>
+                </div>
+                <div class="overflow-x-auto">
+                    <table class="w-full text-left">
+                        <thead class="bg-gray-50/50 border-b border-gray-100">
+                            <tr class="text-[11px] uppercase tracking-widest text-gray-400 font-bold">
+                                <th class="px-8 py-4 w-10"><input type="checkbox" class="rounded border-gray-300"></th>
+                                <th class="px-8 py-4">Detalles</th>
+                                <th class="px-8 py-4">Estado</th>
+                                <th class="px-8 py-4">Groupo</th>
+                                <th class="px-8 py-4">Email</th>
+                                <th class="px-8 py-4"></th>
+                            </tr>
+                        </thead>
+                        <tbody id="user-table-body" class="divide-y divide-gray-50 text-sm"></tbody>
+                    </table>
+                </div>
             </div>
-            <div class="input-container">
-                <input type="text" id="update-nick_name" placeholder="New Nick Name">
-            </div>
-            <div class="input-container">
-                <input type="text" id="update-nombre" placeholder="New Name">
-            </div>
-             <div class="input-container">
-                <input type="email" id="update-email" placeholder="New Email">
-            </div>
-            <button id="update-user-button" class="dashboard-button">Update</button>
-            <div id="message-update-user" class="message-container"></div>
-        </div>
 
-        <div id="delete-user-form">
-            <h3>Delete User</h3>
-            <div class="input-container">
-                <input type="number" id="delete-user-id-input" placeholder="Enter User ID to Delete" required>
-            </div>
-            <button id="delete-user-button" class="dashboard-button">Delete User</button>
-            <div id="message-delete-user" class="message-container"></div>
-        </div>
+            <div id="get-user-by-id-form" class="hidden max-w-2xl mx-auto space-y-6">
+                <div class="bg-white rounded-2xl border border-gray-200 shadow-sm p-10">
+                    <header class="mb-8 text-center">
+                        <h3 class="text-2xl font-bold">Buscar Miembro</h3>
+                        <p class="text-gray-500 mt-1">Obtener detalles de un usuario específico por su ID.</p>
+                    </header>
+                    <div class="space-y-4">
+                        <div>
+                            <label class="text-xs font-bold text-gray-400 uppercase tracking-widest mb-2 block ml-1">ID usuario</label>
+                            <input type="number" id="user-id-input" class="w-full bg-gray-50 px-5 py-4 border border-gray-200 rounded-xl focus:ring-4 focus:ring-green-500/10 focus:border-green-500 outline-none transition-all text-lg font-semibold" placeholder="Enter ID...">
+                        </div>
+                        <button id="get-user-by-id-button" class="w-fit bg-gray-900 hover:bg-black text-white py-4 px-4 rounded-xl mx-auto font-bold transition-all shadow-xl shadow-gray-200 flex items-center justify-center gap-2">
+                            Buscar<i data-lucide="arrow-right" class="w-4 h-4"></i>
+                        </button>
+                    </div>
+                    <div id="message-get-user" class="mt-6 text-center text-sm font-medium"></div>
+                </div>
 
-        <div class="dashboard-title">
-            <a href="/">
-                <button class="dashboard-button">Logout</button>
-            </a>
-        </div>
+                <div id="result-container" class="hidden bg-white border border-gray-200 rounded-2xl shadow-sm overflow-hidden">
+                    <div class="px-6 py-3 bg-gray-50 border-b border-gray-100 text-[10px] font-bold text-gray-400 uppercase tracking-widest">Resultados</div>
+                    <table class="w-full text-left">
+                        <tbody id="single-user-result"></tbody>
+                    </table>
+                </div>
+            </div>
+            
+            <div id="update-user-form" class="hidden max-w-4xl mx-auto animate-in fade-in duration-500">
+                <div class="bg-white rounded-2xl border border-gray-200 shadow-sm overflow-hidden">
+                    <header class="px-10 py-8 border-b border-gray-100 bg-gray-50/50">
+                        <h3 class="text-2xl font-bold text-gray-900">Actualizar Detalles del Miembro</h3>
+                        <p class="text-sm text-gray-500 mt-1">Modificar la información del usuario. El campo ID es obligatorio.</p>
+                    </header>
+                    
+                    <div class="p-10">
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                            <div class="space-y-6">
+                                <div>
+                                    <label class="block text-[10px] font-bold text-green-600 uppercase tracking-[0.2em] mb-3">ID usuario *</label>
+                                    <input type="number" id="update-user-id" class="w-full bg-white px-5 py-4 border-2 border-green-100 rounded-xl focus:ring-4 focus:ring-green-500/10 focus:border-green-500 outline-none transition-all font-bold text-lg" placeholder="e.g. 7">
+                                </div>
+                                <div>
+                                    <label class="block text-[10px] font-bold text-gray-400 uppercase tracking-[0.2em] mb-3">Nickname</label>
+                                    <input type="text" id="update-nick_name" class="w-full bg-gray-50 px-5 py-3 border border-gray-200 rounded-xl focus:bg-white focus:border-green-500 outline-none transition-all" placeholder="New alias...">
+                                </div>
+                            </div>
+
+                            <div class="space-y-6">
+                                <div>
+                                    <label class="block text-[10px] font-bold text-gray-400 uppercase tracking-[0.2em] mb-3">Nombre</label>
+                                    <input type="text" id="update-nombre" class="w-full bg-gray-50 px-5 py-3 border border-gray-200 rounded-xl focus:bg-white focus:border-green-500 outline-none transition-all" placeholder="Enter new name...">
+                                </div>
+                                <div>
+                                    <label class="block text-[10px] font-bold text-gray-400 uppercase tracking-[0.2em] mb-3">Email</label>
+                                    <input type="email" id="update-email" class="w-full bg-gray-50 px-5 py-3 border border-gray-200 rounded-xl focus:bg-white focus:border-green-500 outline-none transition-all" placeholder="email@example.com">
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="mt-10 flex flex-col items-center">
+                            <button id="update-user-button" class="w-full md:w-64 bg-gray-900 hover:bg-black text-white py-4 rounded-xl font-bold transition-all shadow-xl shadow-gray-200 flex items-center justify-center gap-3">
+                                <i data-lucide="save" class="w-5 h-5"></i> Guardar Cambios
+                            </button>
+                            <div id="message-update-user" class="mt-6 text-sm font-medium text-center"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div id="delete-user-form" class="hidden max-w-xl mx-auto animate-in zoom-in duration-300">
+                <div class="bg-white rounded-2xl border border-gray-200 shadow-sm p-10 text-center">
+                    <div class="w-20 h-20 bg-red-50 text-red-500 rounded-full flex items-center justify-center mx-auto mb-6">
+                        <i data-lucide="user-x" class="w-10 h-10"></i>
+                    </div>
+                    <h3 class="text-2xl font-bold text-gray-900">Eliminar Miembro</h3>
+                    <p class="text-gray-500 mt-2">Esta acción es permanente. Ingrese el ID del usuario.</p>
+                    
+                    <div class="mt-8 space-y-4">
+                        <input type="number" id="delete-user-id-input" class="w-full bg-gray-50 px-5 py-4 border border-gray-200 rounded-xl focus:ring-4 focus:ring-red-500/10 focus:border-red-500 outline-none transition-all text-center text-xl font-bold" placeholder="User ID">
+                        
+                        <button id="delete-user-button" class="w-full bg-red-600 hover:bg-red-700 text-white py-4 rounded-xl font-bold transition-all shadow-lg shadow-red-100 flex items-center justify-center gap-2">
+                            <i data-lucide="trash-2" class="w-5 h-5"></i> Eliminar
+                        </button>
+                    </div>
+                    <div id="message-delete-user" class="mt-6 text-sm font-medium"></div>
+                </div>
+            </div>
+        </main>
     </div>
 
     <script>
         const API_BASE_URL = 'http://127.0.0.1:8000';
+        const sections = {
+            list: document.getElementById('user-list-container'),
+            getById: document.getElementById('get-user-by-id-form'),
+            update: document.getElementById('update-user-form'),
+            delete: document.getElementById('delete-user-form')
+        };
 
-        const getAllUsersButton = document.getElementById('get-all-users');
-        const getUserByIdButtonElement = document.getElementById('get-user-by-id');
-        const updateUserButtonElement = document.getElementById('update-user');
-        const deleteUserButtonElement = document.getElementById('delete-user');
+        function showSection(key) {
+            Object.values(sections).forEach(s => s?.classList.add('hidden'));
+            sections[key].classList.remove('hidden');
+        }
 
-        const userIdInput = document.getElementById('user-id-input');
-        const getUserByIdButton = document.getElementById('get-user-by-id-button');
-        const userList = document.getElementById('user-list');
-        const userListContainer = document.getElementById('user-list-container');
-        const messageGetUser = document.getElementById('message-get-user');
+        function renderUserRow(user) {
+            const isActive = user.detalles?.[0]?.estado_cuenta;
+            const initials = user.nombre ? user.nombre.substring(0, 2).toUpperCase() : '??';
+            
+            return `
+                <tr class="hover:bg-gray-50/50 transition-colors group">
+                    <td class="px-8 py-5"><input type="checkbox" class="rounded border-gray-300"></td>
+                    <td class="px-8 py-5">
+                        <div class="flex items-center gap-4">
+                            <div class="w-10 h-10 rounded-full bg-gray-100 flex items-center justify-center font-bold text-gray-600 border border-gray-200 text-xs">${initials}</div>
+                            <div>
+                                <div class="font-bold text-gray-900">${user.nick_name}</div>
+                                <div class="text-gray-400 text-xs font-medium">ID: ${user.id_usuario}</div>
+                            </div>
+                        </div>
+                    </td>
+                    <td class="px-8 py-5">
+                        <span class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-[11px] font-bold ${isActive ? 'bg-green-50 text-green-700' : 'bg-gray-50 text-gray-500'}">
+                            <span class="w-1.5 h-1.5 rounded-full ${isActive ? 'bg-green-500' : 'bg-gray-400'}"></span>
+                            ${isActive ? 'ACTIVE' : 'INACTIVE'}
+                        </span>
+                    </td>
+                    <td class="px-8 py-5 text-gray-500 font-medium">${user.detalles?.[0]?.grupo || 'Member'}</td>
+                    <td class="px-8 py-5 text-gray-400">${user.detalles?.[0]?.email || 'N/A'}</td>
+                    <td class="px-8 py-5 text-right">
+                        <div class="flex gap-3 justify-end opacity-0 group-hover:opacity-100 transition-opacity text-gray-400">
+                            <button class="hover:text-blue-500"><i data-lucide="edit-2" class="w-4 h-4"></i></button>
+                            <button class="hover:text-red-500"><i data-lucide="trash-2" class="w-4 h-4"></i></button>
+                        </div>
+                    </td>
+                </tr>`;
+        }
 
-        const updateUserIdInput = document.getElementById('update-user-id');
-        const updateNickNameInput = document.getElementById('update-nick_name');
-        const updateNombreInput = document.getElementById('update-nombre');
-        const updateEmailInput = document.getElementById('update-email');
-        const updateUserButton = document.getElementById('update-user-button');
-        const messageUpdateUser = document.getElementById('message-update-user');
-
-        const deleteUserIdInput = document.getElementById('delete-user-id-input');
-        const deleteUserButton = document.getElementById('delete-user-button');
-        const messageDeleteUser = document.getElementById('message-delete-user');
-
-        getAllUsersButton.addEventListener('click', () => {
-            userListContainer.style.display = 'block';
-            document.getElementById('get-user-by-id-form').style.display = 'none';
-            document.getElementById('update-user-form').style.display = 'none';
-            document.getElementById('delete-user-form').style.display = 'none';
+        // LÓGICA DE EVENTOS
+        document.getElementById('get-all-users').addEventListener('click', () => {
+            showSection('list');
             fetch(`${API_BASE_URL}/usuarios/`)
-                .then(response => {
-                    if (!response.ok) {
-                        throw new Error(`HTTP error! status: ${response.status}`);
-                    }
-                    return response.json();
-                })
+                .then(res => res.json())
                 .then(data => {
-                    userList.innerHTML = '';
-                    data.forEach(user => {
-                        const listItem = document.createElement('li');
-                        listItem.innerHTML = `<strong>ID:</strong> ${user.id_usuario}, <strong>Name:</strong> ${user.nombre || 'N/A'}, <strong>Nickname:</strong> ${user.nick_name}, <strong>Fecha:</strong> ${user.fecha}, <strong>Email:</strong> ${user.detalles ? user.detalles[0].email : 'N/A'}`;
-                        userList.appendChild(listItem);
-                    });
-                })
-                .catch(error => {
-                    userList.innerHTML = `<li>Error: ${error.message}</li>`;
+                    const tbody = document.getElementById('user-table-body');
+                    tbody.innerHTML = data.map(user => renderUserRow(user)).join('');
+                    document.getElementById('user-count').textContent = data.length;
+                    lucide.createIcons();
                 });
         });
 
-        getUserByIdButtonElement.addEventListener('click', () => {
-            document.getElementById('get-user-by-id-form').style.display = 'flex';
-            userListContainer.style.display = 'none';
-            document.getElementById('update-user-form').style.display = 'none';
-            document.getElementById('delete-user-form').style.display = 'none';
-        });
+        document.getElementById('get-user-by-id').addEventListener('click', () => showSection('getById'));
 
-        getUserByIdButton.addEventListener('click', () => {
-            const userId = userIdInput.value.trim();
-            if (!userId) {
-                messageGetUser.textContent = 'Please enter a User ID.';
-                messageGetUser.className = 'error-message';
-                return;
-            }
+        const getUserBtn = document.getElementById('get-user-by-id-button');
+        getUserBtn.addEventListener('click', () => {
+            const id = document.getElementById('user-id-input').value;
+            const msg = document.getElementById('message-get-user');
+            const resContainer = document.getElementById('result-container');
+            
+            msg.textContent = "Searching...";
+            resContainer.classList.add('hidden');
 
-            fetch(`${API_BASE_URL}/usuarios/${userId}`)
-                .then(response => {
-                    if (!response.ok) {
-                        if (response.status === 404) {
-                            messageGetUser.textContent = 'User not found.';
-                            messageGetUser.className = 'error-message';
-                        } else {
-                            throw new Error(`HTTP error! status: ${response.status}`);
-                        }
-                        return;
-                    }
-                    return response.json();
-                })
+            fetch(`${API_BASE_URL}/usuarios/${id}`)
+                .then(r => r.ok ? r.json() : Promise.reject('User not found'))
                 .then(user => {
-                    if (user) {
-                        messageGetUser.textContent = `ID: ${user.id_usuario}, Name: ${user.nombre || 'N/A'}, Nickname: ${user.nick_name}, Fecha: ${user.fecha}, Email: ${user.detalles ? user.detalles[0].email : 'N/A'}`;
-                        messageGetUser.className = 'success-message';
-                    }
+                    document.getElementById('single-user-result').innerHTML = renderUserRow(user);
+                    resContainer.classList.remove('hidden');
+                    msg.textContent = "";
+                    lucide.createIcons();
                 })
-                .catch(error => {
-                    messageGetUser.textContent = `Error: ${error.message}`;
-                    messageGetUser.className = 'error-message';
+                .catch(err => {
+                    msg.innerHTML = `<span class="text-red-600">${err}</span>`;
                 });
         });
 
-        updateUserButtonElement.addEventListener('click', () => {
-            document.getElementById('update-user-form').style.display = 'flex';
-            userListContainer.style.display = 'none';
-            document.getElementById('get-user-by-id-form').style.display = 'none';
-            document.getElementById('delete-user-form').style.display = 'none';
-        });
+        document.getElementById('update-user').addEventListener('click', () => showSection('update'));
 
-        updateUserButton.addEventListener('click', () => {
-            const userId = updateUserIdInput.value.trim();
-            const newNickName = updateNickNameInput.value.trim();
-            const newName = updateNombreInput.value.trim();
-            const newEmail = updateEmailInput.value.trim();
+        // --- LÓGICA DE UPDATE ---
+        document.getElementById('update-user-button').addEventListener('click', () => {
+            const userId = document.getElementById('update-user-id').value;
+            const msg = document.getElementById('message-update-user');
+            
+            const userData = {
+                nick_name: document.getElementById('update-nick_name').value || undefined,
+                nombre: document.getElementById('update-nombre').value || undefined,
+                email: document.getElementById('update-email').value || undefined
+            };
+
+            // Limpiar campos vacíos para no enviar nulls innecesarios
+            Object.keys(userData).forEach(key => userData[key] === undefined && delete userData[key]);
 
             if (!userId) {
-                messageUpdateUser.textContent = 'Please enter the User ID to update.';
-                messageUpdateUser.className = 'error-message';
+                msg.innerHTML = `<span class="text-red-600">⚠️ ID is required to update.</span>`;
                 return;
             }
-
-            const updateData = {};
-            if (newNickName) updateData.nick_name = newNickName;
-            if (newName) updateData.nombre = newName;
-            if (newEmail) updateData.email = newEmail;
 
             fetch(`${API_BASE_URL}/usuarios/${userId}`, {
                 method: 'PUT',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-                body: JSON.stringify(updateData),
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(userData)
             })
-                .then(response => {
-                    if (!response.ok) {
-                        if (response.status === 404) {
-                            messageUpdateUser.textContent = 'User not found.';
-                            messageUpdateUser.className = 'error-message';
-                        } else {
-                            throw new Error(`HTTP error! status: ${response.status}`);
-                        }
-                        return;
-                    }
-                    return response.json();
-                })
-                .then(updatedUser => {
-                    if (updatedUser) {
-                        messageUpdateUser.textContent = `User updated successfully! New data: Name: ${updatedUser.nombre || 'N/A'}, Nickname: ${updatedUser.nick_name}, Email: ${updatedUser.detalles ? updatedUser.detalles[0].email : 'N/A'}`;
-                        messageUpdateUser.className = 'success-message';
-                        updateUserIdInput.value = '';
-                        updateNickNameInput.value = '';
-                        updateNombreInput.value = '';
-                        updateEmailInput.value = '';
-                    }
-                })
-                .catch(error => {
-                    messageUpdateUser.textContent = `Error: ${error.message}`;
-                    messageUpdateUser.className = 'error-message';
-                });
+            .then(r => r.ok ? r.json() : Promise.reject('Update failed. Check ID.'))
+            .then(data => {
+                msg.innerHTML = `<span class="text-green-600 font-bold">✅ User ${userId} updated successfully!</span>`;
+                lucide.createIcons();
+            })
+            .catch(err => {
+                msg.innerHTML = `<span class="text-red-600">❌ ${err}</span>`;
+            });
         });
 
-        deleteUserButtonElement.addEventListener('click', () => {
-            document.getElementById('delete-user-form').style.display = 'flex';
-            userListContainer.style.display = 'none';
-            document.getElementById('get-user-by-id-form').style.display = 'none';
-            document.getElementById('update-user-form').style.display = 'none';
-        });
+        document.getElementById('delete-user').addEventListener('click', () => showSection('delete'));
 
-        deleteUserButton.addEventListener('click', () => {
-            const userId = deleteUserIdInput.value.trim();
+        // --- LÓGICA DE DELETE ---
+        document.getElementById('delete-user-button').addEventListener('click', () => {
+            const userId = document.getElementById('delete-user-id-input').value;
+            const msg = document.getElementById('message-delete-user');
+
             if (!userId) {
-                messageDeleteUser.textContent = 'Please enter the User ID to delete.';
-                messageDeleteUser.className = 'error-message';
+                msg.innerHTML = `<span class="text-red-600">⚠️ Please provide a valid ID.</span>`;
                 return;
             }
 
-            fetch(`${API_BASE_URL}/usuarios/${userId}`, {
-                method: 'DELETE',
+            if (!confirm(`Are you sure you want to delete user ${userId}?`)) return;
+
+            fetch(`${API_BASE_URL}/usuarios/${userId}`, { method: 'DELETE' })
+            .then(r => r.ok ? r.json() : Promise.reject('Delete failed. User might not exist.'))
+            .then(() => {
+                msg.innerHTML = `<span class="text-green-600 font-bold">🗑️ User ${userId} has been removed.</span>`;
+                document.getElementById('delete-user-id-input').value = '';
             })
-                .then(response => {
-                    if (!response.ok) {
-                        if (response.status === 404) {
-                            messageDeleteUser.textContent = 'User not found.';
-                            messageDeleteUser.className = 'error-message';
-                        } else {
-                            throw new Error(`HTTP error! status: ${response.status}`);
-                        }
-                        return;
-                    }
-                    return response.json();
-                })
-                .then(data => {
-                    messageDeleteUser.textContent = data.message;
-                    messageDeleteUser.className = 'success-message';
-                    deleteUserIdInput.value = '';
-                })
-                .catch(error => {
-                    messageDeleteUser.textContent = `Error: ${error.message}`;
-                    messageDeleteUser.className = 'error-message';
-                });
+            .catch(err => {
+                msg.innerHTML = `<span class="text-red-600">❌ ${err}</span>`;
+            });
         });
+        // Inicializar iconos
+        lucide.createIcons();
     </script>
 </body>
 </html>
