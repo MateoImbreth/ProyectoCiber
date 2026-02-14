@@ -29,13 +29,14 @@ def on_startup():
     Crea las tablas de la base de datos si no existen.
     """
     SQLModel.metadata.create_all(engine)
-    
+
 # ----------------------------------------------------
 # 3. Configuración CORS (Cross-Origin Resource Sharing)
 # ----------------------------------------------------
 origins = [
     "http://localhost:3000",  # Dirección típica de React Dev Server
     "http://127.0.0.1:3000",
+    "https://proyectociber.onrender.com"
 ]
 
 app.add_middleware(
