@@ -13,6 +13,12 @@ class Settings:
     DB_PORT: str = os.environ.get("DB_PORT")
     DB_NAME: str = os.environ.get("DB_NAME")
 
-    DATABASE_URL: str = f'postgresql+psycopg2://{DB_USER}:{DB_PASSWORD}@{DB_HOST}:{DB_PORT}/{DB_NAME}'
+    DATABASE_URL: str = os.getenv("DATABASE_URL")
+
+    if DATABASE_URL and DATABASE_URL.startswith("postgres://"):
+        DATABASE_URL = DATABASE_URL.replace("postgres://", "postgresql://", 1)
+
+    if not DATABASE_URL:
+        DATABASE_URL = f'postgresql+psycopg2://{DB_USER}:{DB_PASSWORD}@{DB_HOST}:{DB_PORT}/{DB_NAME}'
     
 settings = Settings()

@@ -7,6 +7,7 @@ from sqlmodel import SQLModel
 #Importaciones internas
 from Backend.app.api import endpoints_auth # Importa las rutas de autenticación
 from Backend.app.db.db import engine # Importa el motor de la base de datos
+from Backend.app.models import user_model
 
 # ----------------------------------------------------
 # 1. Instancia de la Aplicación FastAPI
@@ -28,6 +29,7 @@ def on_startup():
     Crea las tablas de la base de datos si no existen.
     """
     SQLModel.metadata.create_all(engine)
+    
 # ----------------------------------------------------
 # 3. Configuración CORS (Cross-Origin Resource Sharing)
 # ----------------------------------------------------
