@@ -17,9 +17,13 @@ def registrar_nuevo_usuario(db: Session, nick_name: str, contrasena: str, grupo:
     """
     # Verificar si el nick_name ya existe
     usuario_existente = crud_users.obtener_usuario_por_nickname(db, nick_name)
+    email_existente = crud_users.obtener_usuario_por_email(db,email)
+
     if usuario_existente:
         raise HTTPException(status_code=400, detail="El nick_name ya está en uso.")
-
+    if email_existente:
+        raise HTTPException(status_code=400, detail="El email ya está en uso")
+    
     # Hashear la contraseña
     contrasena_hasheada = hash_password(contrasena)
 

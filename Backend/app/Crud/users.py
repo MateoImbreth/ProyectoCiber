@@ -27,6 +27,14 @@ def obtener_usuarios(db: Session, offset: int = 0, limit: int = 100):
     return db.exec(statement).all()
 
 # ----------------------------------------------------
+# 2.2 Obtener usuario por email
+# ----------------------------------------------------
+
+def obtener_usuario_por_email(db: Session, email: str):
+    statement = select(Detalle_Usuarios).where(Detalle_Usuarios.email == email)
+    return db.exec(statement).first()
+
+# ----------------------------------------------------
 # 3. Crear nuevo usuario y sus detalles
 # ----------------------------------------------------
 
