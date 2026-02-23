@@ -34,8 +34,8 @@ def on_startup():
 # 3. Configuración CORS (Cross-Origin Resource Sharing)
 # ----------------------------------------------------
 origins = [
-    "http://localhost:3000",  # Dirección típica de React Dev Server
-    "http://127.0.0.1:3000",
+    "http://localhost:8000",  # Dirección típica de React Dev Server
+    "http://127.0.0.1:8000",
     "https://proyectociber.onrender.com"
 ]
 

@@ -30,6 +30,9 @@ class DetalleRead(SQLModel):
     grupo: int
     estado_cuenta: bool
 
+# Con esta clase se muestra la información del usuario, pero sin incluir la contraseña ni el token, 
+# ya que son datos sensibles que no deben ser expuestos públicamente. En su lugar, se incluyen los 
+# detalles relevantes como el email, grupo y estado de la cuenta.
 class UserRead(SQLModel):
     id_usuario: int
     nick_name: str
