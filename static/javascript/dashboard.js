@@ -44,7 +44,11 @@ function renderUserRow(user) {
         </tr>`;
 }
 
-// LÓGICA DE EVENTOS
+/**
+ *  LÓGICA DE EVENTOS
+ * 
+ * Obtenemos todos los usuarios
+ * */ 
 document.getElementById('get-all-users').addEventListener('click', () => {
     showSection('list');
     fetch(`${API_BASE_URL}/usuarios/`)
@@ -57,6 +61,7 @@ document.getElementById('get-all-users').addEventListener('click', () => {
         });
 });
 
+// Obtenemos usuarios según su id
 document.getElementById('get-user-by-id').addEventListener('click', () => showSection('getById'));
 
 const getUserBtn = document.getElementById('get-user-by-id-button');
@@ -81,9 +86,10 @@ getUserBtn.addEventListener('click', () => {
         });
 });
 
+// --- LÓGICA DE UPDATE ---
+
 document.getElementById('update-user').addEventListener('click', () => showSection('update'));
 
-// --- LÓGICA DE UPDATE ---
 document.getElementById('update-user-button').addEventListener('click', () => {
     const userId = document.getElementById('update-user-id').value;
     const msg = document.getElementById('message-update-user');
@@ -117,9 +123,10 @@ document.getElementById('update-user-button').addEventListener('click', () => {
     });
 });
 
-document.getElementById('delete-user').addEventListener('click', () => showSection('delete'));
 
 // --- LÓGICA DE DELETE ---
+document.getElementById('delete-user').addEventListener('click', () => showSection('delete'));
+
 document.getElementById('delete-user-button').addEventListener('click', () => {
     const userId = document.getElementById('delete-user-id-input').value;
     const msg = document.getElementById('message-delete-user');
