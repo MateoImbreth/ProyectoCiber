@@ -24,8 +24,9 @@ document.getElementById('loginForm').addEventListener('submit', async function(e
         const data = await response.json();
 
         if (response.ok) {
+            console.log("Login exitoso:", data.message);
             // Si el login es exitoso, redirigimos manualmente
-            window.location.href = data.redirect; 
+            window.location.assign(data.redirect); 
         } else {
             // Si hay un error (400 o 401), lo mostramos sin recargar
             errorMessage.textContent = data.detail || 'Ocurrió un error inesperado';

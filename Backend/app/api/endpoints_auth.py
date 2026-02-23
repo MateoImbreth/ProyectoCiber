@@ -52,7 +52,7 @@ def login(
 
     #Redirigir al usuario a la página del dashboard después del login enviando la cookie
     response = JSONResponse(content={"message": "Login exitoso", "redirect": "/dashboard"})
-    response.set_cookie(key="access_token", value=token, max_age=settings.TOKEN_SECONDS_EXP, path="/", httponly=True) # 
+    response.set_cookie(key="access_token", value=token, max_age=settings.TOKEN_SECONDS_EXP, path="/", httponly=True, secure=True) # 
     return response
 
 
