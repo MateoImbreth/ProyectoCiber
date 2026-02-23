@@ -1,5 +1,5 @@
 from fastapi import APIRouter, Depends, Form, Request, Cookie, HTTPException
-from fastapi.responses import HTMLResponse, RedirectResponse
+from fastapi.responses import HTMLResponse, RedirectResponse, JSONResponse
 from fastapi.templating import Jinja2Templates
 from sqlmodel import Session
 from typing import Annotated
@@ -38,20 +38,21 @@ def login(
 ):
     # Verificar contraseñas iguales del usuario
     if contrasena != confirmar_contrasena:
-        raise HTTPException(status_code=400, detail="Las contraseñas no coinciden.")
+        return JSONResponse(status_code=400, content={"detail": "Las contraseñas no coinciden"})
     
     # Verificar credenciales del usuario
     user = auth_services.verificar_credenciales(nick_name, contrasena, db)
+    print("Usuario autenticado:", user)
     if not user:
-        raise HTTPException(status_code=401, detail="Credenciales inválidas")
+        return JSONResponse(status_code=401, content={"detail": "Credenciales inválidas"})
 
     usuario_db = crud_users.obtener_usuario_por_nickname(db, nick_name)
     # Crear el token JWT y establecerlo en una cookie segura
     token = create_token({"nick_name": usuario_db.nick_name})
 
     #Redirigir al usuario a la página del dashboard después del login enviando la cookie
-    response = RedirectResponse(url="/dashboard", status_code=303)
-    response.set_cookie(key="access_token", value=token, max_age=settings.TOKEN_SECONDS_EXP, path="/")
+    response = JSONResponse(content={"message": "Login exitoso", "redirect": "/dashboard"})
+    response.set_cookie(key="access_token", value=token, max_age=settings.TOKEN_SECONDS_EXP, path="/", httponly=True) # 
     return response
 
 
@@ -64,16 +65,17 @@ def dashboard(
     access_token: Annotated[str | None, Cookie()] = None,
     db: Session = Depends(get_db)
 ):
-    if not access_token:
+    if not access_token: # 
         return RedirectResponse(url="/", status_code=303)
 
     try:
         #Decodificar el token JWT para obtener la información del usuario
         payload = jwt.decode(access_token, settings.SECRET_KEY, algorithms=["HS256"])
-        nick_name: str = payload.get("nick_name")
-
+        nick_name: str = payload.get("nick_name") # Obtener el nick_name del payload del token decodificado, si el token no es válido o ha expirado, esto lanzará una excepción JWTError que se captura en el bloque except
+        # Para comprobar que el token es válido y no ha expirado, se decodifica el token utilizando la función jwt.decode de la biblioteca jose, pasando el token, la clave secreta y el algoritmo de encriptación. Si el token es válido, se obtiene el payload decodificado, que contiene la información del usuario (en este caso, el nick_name). Si el token no es válido o ha expirado, se lanzará una excepción JWTError que se captura en el bloque except, lo que hace que se redirija al usuario a la página de inicio de sesión.
+        # El token co
         user = crud_users.obtener_usuario_por_nickname(db, nick_name)
-        if not user:
+        if not user: #
             return RedirectResponse(url="/", status_code=303)
         
         return templates.TemplateResponse(
@@ -103,6 +105,13 @@ def mostrar_formulario_registro(request: Request):
     Lo que hace es mostrar la página html del formulario de registro de nuevo usuario.
     """
     return templates.TemplateResponse("register.html", {"request": request})
+
+# La diferencia entre router.get y router.post es que el primero se utiliza para manejar solicitudes GET, que son típicamente usadas para obtener datos o mostrar páginas, 
+# mientras que el segundo se utiliza para manejar solicitudes POST, que son usadas para enviar datos al servidor, como en el caso de un formulario de registro o inicio de sesión. 
+# En este caso, router.get("/register") muestra el formulario de registro, mientras que router.post("/register") procesa los datos enviados por ese formulario para crear un nuevo usuario.
+# Para mostrar el formulario de registro el frontend a través de un enlace o botón redirige al usuario a la ruta "/register" con una solicitud GET, 
+# lo que hace que se muestre la página HTML del formulario. Luego, cuando el usuario completa el formulario y lo envía, se envía una solicitud POST a la misma ruta "/register" 
+# con los datos del formulario, y el backend procesa esa solicitud para registrar al nuevo usuario utilizando la lógica definida en auth_services.registrar_nuevo_usuario.
 
 @router.post("/register")
 def crear_usuario_endpoint(
