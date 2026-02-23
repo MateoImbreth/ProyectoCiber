@@ -1,5 +1,5 @@
 from sqlmodel import Session
-from fastapi import HTTPException
+from fastapi.responses import JSONResponse
 from datetime import date
 from Backend.app.Crud import users as crud_users
 from Backend.app.Core.security import hash_password, verify_password
@@ -20,9 +20,9 @@ def registrar_nuevo_usuario(db: Session, nick_name: str, contrasena: str, grupo:
     email_existente = crud_users.obtener_usuario_por_email(db,email)
 
     if usuario_existente:
-        raise HTTPException(status_code=400, detail="El nick_name ya está en uso.")
+        return JSONResponse(status_code=400, content={"detail": "El nick_name ya está en uso"})
     if email_existente:
-        raise HTTPException(status_code=400, detail="El email ya está en uso")
+        return JSONResponse(status_code=400, content={"detail": "El email ya está en uso"})
     
     # Hashear la contraseña
     contrasena_hasheada = hash_password(contrasena)

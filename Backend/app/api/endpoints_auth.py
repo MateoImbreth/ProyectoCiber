@@ -126,12 +126,18 @@ def crear_usuario_endpoint(
     Recibe los datos del formulario y usar la lógica de auth_services.
     Solo llamamos al servicio y él se encarga de todo.
     """
-    auth_services.registrar_nuevo_usuario(
+    resultado =auth_services.registrar_nuevo_usuario(
         db, nick_name, contrasena, grupo, email
     )
 
+    if isinstance(resultado, JSONResponse):
+        return resultado
+
     # Redirigir al usuario al login después del registro
-    return RedirectResponse(url="/", status_code=303)
+    return JSONResponse(
+        status_code=201, 
+        content={"message": "Usuario creado con éxito", "redirect": "/"}
+    )
 
 
 # ----------------------------------------------------
