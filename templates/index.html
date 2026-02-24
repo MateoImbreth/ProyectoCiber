@@ -3,6 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Página Login para dar accesos a los usuarios registrados hacia el dashboard">
     <title>Login</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -11,7 +12,7 @@
     <link rel="stylesheet" href="/static/css/output.css">
 </head> 
 <body class="bg-gray-50 flex flex-col items-center justify-center h-screen mx-auto max-w-xl text-center">
-    <div class="bg-white w-md h-auto py-9 rounded-xl shadow-[0_8px_20px_rgba(0,0,0,0.1)]">
+    <div class="bg-white h-auto py-9 sm:px-8 rounded-xl shadow-[0_8px_20px_rgba(0,0,0,0.1)]">
         <div class="pt-7 pb-3">
             <h2 class="text-3xl font-medium py-2">Login</h2>
             <p class="text-lg opacity-70 font-light pb-4">Inicia sesión para continuar</p>
@@ -19,23 +20,23 @@
             <form class="flex flex-col items-center space-y-5"
             id="loginForm" action="/login" method="post">
             <div class="">
-                <input class="border border-gray-300 rounded-xl p-2 w-xs
+                <input class="border border-gray-300 rounded-xl p-2 sm:w-xs w-64
                 focus:outline-none focus:ring-2 focus:ring-green-500" 
                 type="text" name="nick_name" placeholder="Username" required>
             </div>
             <div class="">
-                <input class="border border-gray-300 rounded-xl p-2 w-xs
-                focus:outline-none focus:ring-2 focus:ring-green-500" 
+                <input class="border border-gray-300 rounded-xl p-2 sm:w-xs w-64
+                focus:outline-none focus:ring-2 focus:ring-green-500"
                 type="password" id="password" name="contrasena" placeholder="Password" required>
             </div>
             <div class="">
-                 <input class="border border-gray-300 rounded-xl p-2 w-xs
+                 <input class="border border-gray-300 rounded-xl p-2 sm:w-xs w-64
                  focus:outline-none focus:ring-2 focus:ring-green-500" 
                  type="password" id="confirm-password" name="confirmar_contrasena" placeholder="Confirm Password" required>
             </div>
             <button type="submit" 
-            class="bg-green-600 text-white py-2.5 mt-2 rounded-xl
-             hover:bg-green-700 cursor-pointer w-sm text-xl">Login</button>
+            class="bg-green-600 text-white py-2.5 rounded-xl
+             hover:bg-green-700 cursor-pointer w-80 sm:w-sm mx-8 sm:mx-0 text-xl hover:transition-all">Login</button>
              <a href="/register" >
                 <input type="button" value="Registrate" class="underline cursor-pointer mb-2 text-green-600">
             </a>

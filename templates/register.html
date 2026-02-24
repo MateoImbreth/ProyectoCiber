@@ -3,6 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Página de registro para crear una cuenta nueva y redirigir a los usuarios al login">
     <title>Register</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -10,8 +11,8 @@
     <link rel="stylesheet" href="/static/css/output.css">
     <script></script>
 </head>
-<body class="bg-gray-50 mx-auto text-center flex flex-col items-center justify-center h-screen">
-    <div class="bg-white shadow-[0_8px_20px_rgba(0,0,0,0.1)] w-md h-auto py-9 rounded-lg">
+<body class="bg-gray-50 mx-auto max-w-xl text-center flex flex-col items-center justify-center h-screen">
+    <div class="bg-white shadow-[0_8px_20px_rgba(0,0,0,0.1)] sm:px-8 h-auto py-9 rounded-xl">
         <div class="mt-3 mb-8">    
             <h2 class="text-3xl font-medium mb-3">Crea una nueva cuenta</h2>
             <p class="mb-2 opacity-70 text-lg">¿Ya estás registrado?</p>
@@ -19,35 +20,36 @@
         </div>
             <form class="flex flex-col items-center space-y-5" id="registerForm" action="/register" method="post">
             <div class="">
-                <input class="border border-gray-300 rounded-md p-2 w-2xs
+                <input class="border border-gray-300 rounded-xl p-2 sm:w-2xs w-64
                 focus:outline-none focus:ring-2 focus:ring-green-500" 
                 type="text" id="nombre" name="nick_name" placeholder="Name" required>
             </div>
             <div class="">
-                <input class="border border-gray-300 rounded-md p-2 w-2xs
+                <input class="border border-gray-300 rounded-xl p-2 sm:w-2xs w-64
                 focus:outline-none focus:ring-2 focus:ring-green-500" 
                 type="email" id="email" name="email" placeholder="Email" required>
             </div>
             <div class="">
-                <input class="border border-gray-300 rounded-md p-2 w-2xs  
+                <input class="border border-gray-300 rounded-xl p-2 sm:w-2xs w-64
                 focus:outline-none focus:ring-2 focus:ring-green-500" 
                 type="password" id="password" name="contrasena" placeholder="Password" required>
             </div>
             <div class="">
-                <input class="border border-gray-300 rounded-md p-2 w-2xs
+                <input class="border border-gray-300 rounded-xl p-2 sm:w-2xs w-64
                 focus:outline-none focus:ring-2 focus:ring-green-500" 
                 type="password" id="confirm-password" name="confirmar_contrasena" placeholder="Confirm Password" required>
             </div>
             <div class="">
-                <input class="border border-gray-300 rounded-md p-2 w-2xs
+                <input class="border border-gray-300 rounded-xl p-2 sm:w-2xs w-64
                 focus:outline-none focus:ring-2 focus:ring-green-500" 
                 type="text" id="grupo" name="grupo" placeholder="Group" required>
             </div>
             <button class="bg-green-600 text-white py-2.5 my-2 rounded-lg
-             hover:bg-green-700 cursor-pointer w-sm text-xl" type="submit" class="register-button">Registrar</button>
+             hover:bg-green-700 cursor-pointer w-80 sm:w-sm mx-8 sm:mx-0 text-xl hover:transition-all" type="submit" class="register-button">Registrar</button>
         </form>
         <div id="error-message" class="error-message text-red-500 font-medium" style="display:none;"></div>
     </div>
     <script src="/static/javascript/register.js"></script>
 </body>
+
 </html>
